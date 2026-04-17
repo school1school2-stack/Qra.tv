@@ -3,66 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>إذاعة القرآن الكريم الجامعة</title>
+    <title>إذاعة القرآن الجامعة والمصحف</title>
     <style>
-        :root { --accent: #f1c40f; --green: #42e695; --red: #ff4757; --dark-bg: #0f172a; --blue: #3498db; }
+        :root { --accent: #f1c40f; --green: #42e695; --red: #ff4757; --dark-bg: #0f172a; }
         
         body {
             margin: 0; font-family: 'Segoe UI', Tahoma, sans-serif;
             background: linear-gradient(135deg, #1e3c72, #2a5298);
             min-height: 100vh; display: flex; justify-content: center; 
             align-items: center; color: white; padding: 15px; box-sizing: border-box;
-            overflow: hidden; /* لمنع التمرير المزدوج عند فتح المصحف */
+            overflow: hidden;
         }
 
         .container {
             background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(15px);
             padding: 25px 20px; border-radius: 20px; text-align: center;
             width: 100%; max-width: 420px; border: 1px solid rgba(255,255,255,0.1);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
         }
 
         .main-title { color: var(--accent); font-weight: bold; margin-bottom: 20px; font-size: 1.5rem; }
 
-        /* زر المصحف المدمج */
+        /* زر المصحف الذكي */
         .mushaf-btn {
-            background: linear-gradient(45deg, #27ae60, #2ecc71);
-            color: white; border: none; padding: 12px; border-radius: 12px;
-            width: 100%; font-weight: bold; font-size: 1rem; cursor: pointer;
-            margin-bottom: 15px; display: flex; align-items: center; justify-content: center; gap: 8px;
-            box-shadow: 0 4px 12px rgba(46, 204, 113, 0.3);
+            background: linear-gradient(45deg, #d4af37, #f1c40f);
+            color: black; border: none; padding: 15px; border-radius: 12px;
+            width: 100%; font-weight: bold; font-size: 1.1rem; cursor: pointer;
+            margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 8px;
+            box-shadow: 0 4px 15px rgba(241, 196, 15, 0.3);
         }
 
-        /* نافذة المصحف المنبثقة (Full Screen Modal) */
+        /* نافذة المصحف المنبثقة */
         .mushaf-modal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: #000; z-index: 9999; flex-direction: column;
         }
 
         .mushaf-header {
-            background: #1a1a1a; padding: 10px; display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 1px solid var(--accent);
+            background: #1a1a1a; padding: 12px; display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 2px solid var(--accent);
         }
 
         .close-mushaf {
-            background: var(--red); color: white; border: none; padding: 5px 15px; 
-            border-radius: 5px; cursor: pointer; font-weight: bold;
+            background: var(--red); color: white; border: none; padding: 8px 18px; 
+            border-radius: 8px; cursor: pointer; font-weight: bold;
         }
 
-        /* حاوية المصحف (الرابط المباشر) */
-        .mushaf-frame {
-            width: 100%; flex-grow: 1; border: none;
-        }
+        .mushaf-frame { width: 100%; flex-grow: 1; border: none; background: white; }
 
-        /* تنسيقات الأزرار والقوائم (نفس كودك الأصلي) */
-        .sections-container { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 15px; }
-        .mode-btn { padding: 12px; border-radius: 12px; border: none; cursor: pointer; background: #333; color: white; font-size: 0.8rem; }
-        .active-mode { background: var(--accent); color: black; font-weight: bold; }
-        .full-width { grid-column: span 2; }
-        input[type="text"], select { width: 100%; padding: 12px; border-radius: 10px; border: none; margin-bottom: 10px; outline: none; text-align: right; }
-        .controls { display: flex; justify-content: center; align-items: center; gap: 15px; margin-top: 10px; }
-        .play-btn { background: var(--green); border: none; width: 65px; height: 65px; border-radius: 50%; font-size: 1.5rem; cursor: pointer; }
-        .footer { margin-top: 20px; font-size: 0.75rem; color: var(--accent); opacity: 0.8; }
+        /* عناصر التحكم */
+        input[type="text"], select { width: 100%; padding: 14px; border-radius: 12px; border: none; margin-bottom: 12px; font-weight: bold; text-align: right; }
+        .play-btn { background: var(--green); border: none; width: 75px; height: 75px; border-radius: 50%; font-size: 1.8rem; cursor: pointer; color: black; transition: 0.2s; }
+        .footer { margin-top: 25px; font-size: 0.8rem; color: var(--accent); }
     </style>
 </head>
 <body>
@@ -70,31 +61,24 @@
 <div class="container">
     <div class="main-title">إذاعة القرآن الكريم الجامعة</div>
     
-    <button class="mushaf-btn" onclick="openMushaf()">
-        📖 تصفح المصحف الآن
+    <button class="mushaf-btn" id="openMushafBtn">
+        📖 فتح المصحف (سورة <span id="currentSurahNameDisplay">الفاتحة</span>)
     </button>
 
-    <div class="sections-container">
-        <button class="mode-btn active-mode" id="allMode">📖 مرتل</button>
-        <button class="mode-btn" id="mojawadMode">🎤 مجود</button>
-        <button class="mode-btn full-width" id="childMode">👶 المصحف المعلم</button>
-    </div>
-
-    <input type="text" id="searchReciter" placeholder="🔍  ابحث عن اسم القارئ...">
+    <input type="text" id="searchReciter" placeholder="🔍  ابحث عن القارئ...">
     <select id="reciterSelect"></select>
     <select id="surahSelect"></select>
 
-    <div class="controls">
-        <button id="addFav" style="background:none; border:none; color:var(--red); font-size:1.5rem; cursor:pointer;">❤</button>
+    <div style="margin-top: 20px;">
         <button id="playBtn" class="play-btn">▶</button>
     </div>
 
-    <div class="footer">صدقة جارية - أبو نواف</div>
+    <div class="footer">صدقة جارية لجميع موتى المسلمين - أبو نواف</div>
 </div>
 
 <div id="mushafModal" class="mushaf-modal">
     <div class="mushaf-header">
-        <span style="color: var(--accent); font-weight: bold;">📖 المصحف الشريف</span>
+        <span id="mushafTitle" style="color: var(--accent); font-weight: bold;">📖 تصفح السورة</span>
         <button class="close-mushaf" onclick="closeMushaf()">إغلاق المصحف ✖</button>
     </div>
     <iframe id="mushafFrame" class="mushaf-frame" src=""></iframe>
@@ -103,65 +87,39 @@
 <audio id="audioPlayer"></audio>
 
 <script>
-    const mushafModal = document.getElementById('mushafModal');
-    const mushafFrame = document.getElementById('mushafFrame');
-
-    // وظيفة فتح المصحف داخل التطبيق
-    function openMushaf() {
-        // نضع الرابط فقط عند الفتح لتسريع التحميل الأول للتطبيق
-        if(mushafFrame.src === "") {
-            mushafFrame.src = "https://quran.com/ar"; 
-        }
-        mushafModal.style.display = "flex";
-    }
-
-    // وظيفة إغلاق المصحف والعودة للإذاعة
-    function closeMushaf() {
-        mushafModal.style.display = "none";
-    }
-
-    // --- كود الإذاعة (المنطق الخاص بك) ---
-    const reciterSelect = document.getElementById('reciterSelect');
     const surahSelect = document.getElementById('surahSelect');
+    const reciterSelect = document.getElementById('reciterSelect');
     const playBtn = document.getElementById('playBtn');
     const audio = document.getElementById('audioPlayer');
-    let allReciters = [];
-    let currentMode = 'مرتل';
+    const mushafModal = document.getElementById('mushafModal');
+    const mushafFrame = document.getElementById('mushafFrame');
+    const currentSurahNameDisplay = document.getElementById('currentSurahNameDisplay');
+    const openMushafBtn = document.getElementById('openMushafBtn');
 
     const surahNames = ["الفاتحة","البقرة","آل عمران","النساء","المائدة","الأنعام","الأعراف","الأنفال","التوبة","يونس","هود","يوسف","الرعد","إبراهيم","الحجر","النحل","الإسراء","الكهف","مريم","طه","الأنبياء","الحج","المؤمنون","النور","الفرقان","الشعراء","النمل","القصص","العنكبوت","الروم","لقمان","السجدة","الأحزاب","سبأ","فاطر","يس","الصافات","ص","الزمر","غافر","فصلت","الشورى","الزخرف","الدخان","الجاثية","الأحقاف","محمد","الفتح","الحجرات","ق","الذاريات","الطور","النجم","القمر","الرحمن","الواقعة","الحديد","المجادلة","الحشر","الممتحنة","الصف","الجمعة","المنافقون","التغابن","الطلاق","التحريم","الملك","القلم","الحاقة","المعارج","نوح","الجن","المزمل","المدثر","القيامة","الإنسان","المرسلات","النبأ","النازعات","عبس","التكوير","الانفطار","المطففين","الانشقاق","البروج","الطارق","الأعلى","الغاشية","الفجر","البلد","الشمس","الليل","الضحى","الشرح","التين","العلق","القدر","البينة","الزلزلة","العاديات","القارعة","التكاثر","العصر","الهمزة","الفيل","قريش","الماعون","الكوثر","الكافرون","النصر","المسد","الإخلاص","الفلق","الناس"];
 
-    async function init() {
-        try {
-            const res = await fetch("https://mp3quran.net/api/v3/reciters?language=ar");
-            const data = await res.json();
-            allReciters = data.reciters.sort((a, b) => a.name.localeCompare(b.name, 'ar'));
-            filterReciters();
-            loadSurahs();
-        } catch(e) { console.error("Error loading data"); }
+    // تحديث اسم السورة في الزر عند التغيير
+    surahSelect.onchange = () => {
+        const name = surahSelect.options[surahSelect.selectedIndex].text.split('. ')[1];
+        currentSurahNameDisplay.innerText = name;
+        audio.src = ""; // إعادة تعيين الصوت عند تغيير السورة
+        playBtn.innerText = "▶";
+    };
+
+    // وظيفة فتح المصحف على السورة المختارة برقمها
+    openMushafBtn.onclick = () => {
+        const surahNumber = parseInt(surahSelect.value); // يأخذ رقم السورة (1, 2, 3...)
+        // نستخدم موقع Quran.com مع تمرير رقم السورة مباشرة في الرابط
+        mushafFrame.src = `https://quran.com/ar/${surahNumber}`;
+        mushafModal.style.display = "flex";
+    };
+
+    function closeMushaf() {
+        mushafModal.style.display = "none";
+        mushafFrame.src = ""; // تفريغ الإطار لتوفير الذاكرة
     }
 
-    function filterReciters(term = "") {
-        reciterSelect.innerHTML = '<option value="">-- اختر القارئ --</option>';
-        allReciters.filter(r => term === "" || r.name.includes(term)).forEach(r => {
-            let found = r.moshaf.find(m => currentMode === 'معلم' ? m.name.includes("معلم") : (currentMode === 'مجود' ? m.name.includes("مجود") : (m.name.includes("مرتل") || m.name === "حفص عن عاصم")));
-            if(found) {
-                const opt = document.createElement('option');
-                opt.value = found.server;
-                opt.text = r.name;
-                reciterSelect.appendChild(opt);
-            }
-        });
-    }
-
-    function loadSurahs() {
-        surahNames.forEach((n, i) => {
-            const opt = document.createElement('option');
-            opt.value = (i+1).toString().padStart(3, '0');
-            opt.text = `${i+1}. ${n}`;
-            surahSelect.appendChild(opt);
-        });
-    }
-
+    // تشغيل الصوت
     playBtn.onclick = () => {
         if(!reciterSelect.value) return;
         if(!audio.src || audio.paused) {
@@ -174,9 +132,31 @@
         }
     };
 
-    reciterSelect.onchange = () => { audio.src = ""; playBtn.innerText = "▶"; };
-    surahSelect.onchange = () => { audio.src = ""; playBtn.innerText = "▶"; };
-    document.getElementById('searchReciter').oninput = (e) => filterReciters(e.target.value);
+    // تهيئة البيانات
+    async function init() {
+        // تحميل السور
+        surahNames.forEach((n, i) => {
+            const opt = document.createElement('option');
+            opt.value = (i+1).toString().padStart(3, '0');
+            opt.text = `${i+1}. ${n}`;
+            surahSelect.appendChild(opt);
+        });
+
+        // جلب القراء
+        try {
+            const res = await fetch("https://mp3quran.net/api/v3/reciters?language=ar");
+            const data = await res.json();
+            const sorted = data.reciters.sort((a, b) => a.name.localeCompare(b.name, 'ar'));
+            sorted.forEach(r => {
+                let m = r.moshaf.find(m => m.name.includes("مرتل") || m.name === "حفص عن عاصم");
+                if(m) {
+                    const opt = document.createElement('option');
+                    opt.value = m.server; opt.text = r.name;
+                    reciterSelect.appendChild(opt);
+                }
+            });
+        } catch(e) {}
+    }
 
     init();
 </script>
