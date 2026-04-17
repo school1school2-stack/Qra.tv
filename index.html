@@ -24,7 +24,6 @@
 
         .main-title { color: var(--accent); font-weight: bold; margin-bottom: 20px; font-size: 1.6rem; text-shadow: 0 2px 10px rgba(241, 196, 15, 0.3); }
 
-        /* أزرار العلوية */
         .top-nav-btns { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; }
         .feat-link, .quran-btn { 
             background: none; border: 1px solid var(--accent); color: var(--accent); 
@@ -34,59 +33,36 @@
         }
         .quran-btn { border-color: var(--green); color: var(--green); font-weight: bold; }
         .quran-btn:hover { background: var(--green); color: black; }
-        .feat-link:hover { background: var(--accent); color: black; }
 
         .sections-container { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 15px; }
-        .mode-btn { 
-            padding: 12px; border-radius: 12px; border: none; cursor: pointer; 
-            background: #333; color: white; font-weight: bold; font-size: 0.85rem; 
-            transition: 0.3s; 
-        }
+        .mode-btn { padding: 12px; border-radius: 12px; border: none; cursor: pointer; background: #333; color: white; font-weight: bold; font-size: 0.85rem; transition: 0.3s; }
         .active-mode { background: var(--accent); color: black; box-shadow: 0 0 15px var(--accent); }
         .full-width { grid-column: span 2; }
 
-        input[type="text"], select { 
-            width: 100%; padding: 14px; border-radius: 12px; border: none; 
-            margin-bottom: 12px; background: white; color: #333; 
-            font-size: 1rem; font-weight: bold; outline: none;
-            box-sizing: border-box; text-align: right;
-        }
+        input[type="text"], select { width: 100%; padding: 14px; border-radius: 12px; border: none; margin-bottom: 12px; background: white; color: #333; font-size: 1rem; font-weight: bold; outline: none; box-sizing: border-box; text-align: right; }
 
-        .repeat-box { 
-            background: rgba(255,255,255,0.1); padding: 12px; border-radius: 12px; 
-            margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; 
-        }
+        .repeat-box { background: rgba(255,255,255,0.1); padding: 12px; border-radius: 12px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; }
 
         .progress-box { margin: 15px 0; display: flex; align-items: center; gap: 12px; font-size: 0.85rem; }
         input[type="range"] { flex: 1; cursor: pointer; accent-color: var(--green); }
 
         .controls { display: flex; justify-content: center; align-items: center; gap: 15px; margin-top: 10px; }
-        .play-btn { 
-            background: var(--green); border: none; width: 75px; height: 75px; 
-            border-radius: 50%; font-size: 1.8rem; cursor: pointer; 
-            display: flex; align-items: center; justify-content: center; 
-            color: black; transition: 0.2s; box-shadow: 0 5px 15px rgba(66, 230, 149, 0.3); 
-        }
-        .nav-btn, .fav-btn { 
-            background: rgba(255,255,255,0.1); border: none; color: white; 
-            width: 50px; height: 50px; border-radius: 50%; cursor: pointer; 
-            font-size: 1.2rem; display: flex; align-items: center; justify-content: center; 
-        }
+        .play-btn { background: var(--green); border: none; width: 75px; height: 75px; border-radius: 50%; font-size: 1.8rem; cursor: pointer; display: flex; align-items: center; justify-content: center; color: black; transition: 0.2s; box-shadow: 0 5px 15px rgba(66, 230, 149, 0.3); }
+        .nav-btn, .fav-btn { background: rgba(255,255,255,0.1); border: none; color: white; width: 50px; height: 50px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; }
         .fav-btn { border: 2px solid var(--red); color: var(--red); background: none; }
-        .fav-btn.active { background: var(--red); color: white; box-shadow: 0 0 15px var(--red); }
+        .fav-btn.active { background: var(--red); color: white; }
 
-        /* نافذة المصحف المدمج */
+        /* نافذة المصحف المدمج - شاشة كاملة */
         #quranOverlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: white; z-index: 9999; flex-direction: column;
+            background: #f4f4f4; z-index: 9999; flex-direction: column;
         }
-        .quran-header { background: #1e3c72; color: white; padding: 10px; display: flex; justify-content: space-between; align-items: center; }
+        .quran-header { background: #1e3c72; color: white; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; }
         .quran-frame { flex: 1; border: none; width: 100%; height: 100%; }
 
         /* نافذة الميزات */
-        .modal { display: none; position: fixed; z-index: 2000; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); align-items: center; justify-content: center; padding: 20px; }
-        .modal-content { background: var(--dark-bg); padding: 25px; border-radius: 20px; width: 100%; max-width: 380px; border: 2px solid var(--accent); position: relative; }
-        .close-modal { position: absolute; top: 10px; left: 15px; font-size: 1.8rem; cursor: pointer; color: var(--red); }
+        .modal { display: none; position: fixed; z-index: 2000; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); align-items: center; justify-content: center; }
+        .modal-content { background: var(--dark-bg); padding: 25px; border-radius: 20px; width: 90%; max-width: 380px; border: 2px solid var(--accent); position: relative; }
 
         .footer { margin-top: 25px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.8rem; color: var(--accent); }
     </style>
@@ -98,7 +74,7 @@
     
     <div class="top-nav-btns">
         <button class="feat-link" onclick="toggleModal(true)">📋 أهم المميزات</button>
-        <button class="quran-btn" onclick="toggleQuran(true)">📖 المصحف الشريف</button>
+        <button class="quran-btn" onclick="toggleQuran(true)">📖 فتح المصحف الشريف</button>
     </div>
 
     <div class="sections-container">
@@ -136,22 +112,20 @@
 
 <div id="quranOverlay">
     <div class="quran-header">
-        <span style="font-weight:bold;">📖 المصحف الشريف للقراءة والتصفح</span>
-        <button onclick="toggleQuran(false)" style="background:var(--red); color:white; border:none; padding:8px 15px; border-radius:8px; cursor:pointer; font-weight:bold;">إغلاق العرض</button>
+        <span style="font-weight:bold;">📖 المصحف الشريف المعتمد</span>
+        <button onclick="toggleQuran(false)" style="background:var(--red); color:white; border:none; padding:8px 15px; border-radius:8px; cursor:pointer; font-weight:bold;">العودة للإذاعة ✖</button>
     </div>
-    <iframe id="quranFrame" class="quran-frame"></iframe>
+    <iframe id="quranFrame" class="quran-frame" src="about:blank"></iframe>
 </div>
 
 <div id="featModal" class="modal">
     <div class="modal-content">
-        <span class="close-modal" onclick="toggleModal(false)">&times;</span>
+        <span onclick="toggleModal(false)" style="position:absolute; top:10px; left:15px; cursor:pointer; color:var(--red); font-size:1.5rem;">&times;</span>
         <h3 style="color:var(--accent); margin-top: 0;">🌟 مميزات الإذاعة</h3>
         <ul style="text-align:right; list-style:none; padding:0; margin-top:20px; line-height:2;">
-            <li>⭐ <b>مصحف مدمج:</b> قراءة واستماع في آن واحد.</li>
-            <li>⭐ <b>استكمال تلقائي:</b> يبدأ من حيث توقفت تماماً.</li>
-            <li>⭐ <b>التكرار الذكي:</b> للحفظ والمراجعة (حتى 20 مرة).</li>
-            <li>⭐ <b>قائمة المفضلة:</b> حفظ قرائك المختارين.</li>
-            <li>⭐ <b>البحث السريع:</b> الوصول لأي قارئ بلحظة.</li>
+            <li>⭐ <b>مصحف مدمج:</b> للقراءة والاستماع معاً.</li>
+            <li>⭐ <b>استكمال تلقائي:</b> يبدأ من حيث توقفت.</li>
+            <li>⭐ <b>تكرار السور:</b> للحفظ (حتى 20 مرة).</li>
         </ul>
     </div>
 </div>
@@ -159,7 +133,6 @@
 <audio id="audioPlayer" preload="auto"></audio>
 
 <script>
-    // جميع العناصر البرمجية
     const reciterSelect = document.getElementById('reciterSelect');
     const surahSelect = document.getElementById('surahSelect');
     const repeatSelect = document.getElementById('repeatSelect');
@@ -183,21 +156,19 @@
         const frame = document.getElementById('quranFrame');
         if(show) {
             overlay.style.display = 'flex';
-            // نستخدم رابط موثوق ومعتمد للمصحف المدمج
-            if(!frame.src) frame.src = "https://quran.ksu.edu.sa/m.php";
+            // نستخدم رابط بديل موثوق جداً وخفيف
+            if(frame.src === "about:blank") frame.src = "https://quran.com/ar";
         } else {
             overlay.style.display = 'none';
         }
     }
 
-    // بناء خيارات التكرار
     for(let i=1; i<=20; i++) {
         let opt = document.createElement('option');
         opt.value = i; opt.text = i == 1 ? "بدون تكرار" : `${i} مرات`;
         repeatSelect.appendChild(opt);
     }
 
-    // تهيئة البيانات
     async function init() {
         try {
             const res = await fetch("https://mp3quran.net/api/v3/reciters?language=ar");
@@ -219,7 +190,7 @@
             } else {
                 filterReciters(); loadSurahs(false);
             }
-        } catch(e) { repeatStatus.innerText = "خطأ في تحميل البيانات"; }
+        } catch(e) { repeatStatus.innerText = "خطأ في الاتصال بالسيرفر"; }
     }
 
     function saveCurrentProgress() {
@@ -241,7 +212,7 @@
         currentRepeat = 1;
         updateStatus();
         checkFavStatus();
-        audio.play().catch(e => { repeatStatus.innerText = "اضغط تشغيل للمواصلة"; });
+        audio.play().catch(e => { console.log("Auto-play blocked"); });
     }
 
     function filterReciters(term = "") {
@@ -253,7 +224,7 @@
             });
             if(favGroup.children.length > 0) reciterSelect.appendChild(favGroup);
         }
-        let allGroup = document.createElement('optgroup'); allGroup.label = term === "" ? "📋 جميع القراء" : "🔍 نتائج البحث";
+        let allGroup = document.createElement('optgroup'); allGroup.label = term === "" ? "📋 قائمة القراء" : "🔍 نتائج البحث";
         allReciters.filter(r => term === "" || r.name.includes(term)).forEach(r => {
             let found = r.moshaf.find(m => currentMode === 'معلم' ? m.name.includes("معلم") : (currentMode === 'مجود' ? m.name.includes("مجود") : (m.name.includes("مرتل") || m.name === "حفص عن عاصم")));
             if(found) { const opt = document.createElement('option'); opt.value = found.server; opt.text = r.name; allGroup.appendChild(opt); }
@@ -280,7 +251,6 @@
             surahSelect.selectedIndex++; autoPlayTrack();
         }
     };
-    
     document.getElementById('prevBtn').onclick = () => { if(surahSelect.selectedIndex > 0) { surahSelect.selectedIndex--; autoPlayTrack(); } };
 
     function updateStatus() {
