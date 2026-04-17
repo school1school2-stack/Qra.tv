@@ -3,153 +3,134 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>إذاعة القرآن الكريم الجامعة والمصحف المدمج</title>
+    <title>إذاعة القرآن والمصحف المدمج</title>
     <style>
         :root { --accent: #f1c40f; --green: #42e695; --red: #ff4757; --dark-bg: #0f172a; }
+        body { margin: 0; font-family: 'Segoe UI', Tahoma, sans-serif; background: #1a1a2e; min-height: 100vh; display: flex; justify-content: center; align-items: center; color: white; padding: 10px; box-sizing: border-box; }
+        .container { background: #0f172a; padding: 20px; border-radius: 20px; text-align: center; width: 100%; max-width: 450px; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         
-        body {
-            margin: 0; font-family: 'Segoe UI', Tahoma, sans-serif;
-            background: linear-gradient(135deg, #1e3c72, #2a5298);
-            min-height: 100vh; display: flex; justify-content: center; 
-            align-items: center; color: white; padding: 15px; box-sizing: border-box;
-        }
+        /* تصميم عارض المصحف */
+        .quran-container { display: none; margin-top: 15px; background: #fff; border-radius: 10px; overflow: hidden; border: 2px solid var(--accent); position: relative; }
+        .quran-container.active { display: block; }
+        #quranImg { width: 100%; height: auto; display: block; min-height: 200px; background: #eee; }
+        .quran-nav { display: flex; justify-content: space-between; align-items: center; background: #333; color: #fff; padding: 8px; font-size: 0.9rem; }
+        .p-btn { background: var(--accent); border: none; padding: 5px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; }
 
-        .container {
-            background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(15px);
-            padding: 20px; border-radius: 20px; text-align: center;
-            width: 100%; max-width: 450px; border: 1px solid rgba(255,255,255,0.1);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.5); box-sizing: border-box;
-        }
-
-        .main-title { color: var(--accent); font-weight: bold; margin-bottom: 15px; font-size: 1.4rem; }
-
-        /* قسم المصحف المدمج داخل التصميم */
-        .quran-display {
-            background: #fff; border-radius: 12px; margin-top: 15px;
-            padding: 5px; position: relative; display: none; /* يظهر عند الطلب */
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
-        }
-        .quran-display.active { display: block; }
-        .quran-img { width: 100%; border-radius: 8px; display: block; }
-        
-        .page-ctrl {
-            display: flex; justify-content: space-between; align-items: center;
-            background: rgba(0,0,0,0.8); padding: 5px 10px; border-radius: 0 0 10px 10px;
-            margin-top: -5px; font-size: 0.8rem; color: #fff;
-        }
-        .p-btn { background: var(--accent); border: none; padding: 4px 10px; border-radius: 5px; cursor: pointer; font-weight: bold; }
-
-        /* الأنماط والتحكم */
-        .sections-container { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 15px; }
+        .main-title { color: var(--accent); margin-bottom: 15px; font-size: 1.4rem; }
+        .mode-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 15px; }
         .mode-btn { padding: 10px; border-radius: 10px; border: none; cursor: pointer; background: #333; color: white; font-size: 0.8rem; }
-        .active-mode { background: var(--accent); color: black; font-weight: bold; }
+        .active-mode { background: var(--accent); color: #000; font-weight: bold; }
         .full-width { grid-column: span 2; }
 
-        input[type="text"], select { width: 100%; padding: 12px; border-radius: 10px; border: none; margin-bottom: 10px; background: white; color: #333; font-weight: bold; text-align: right; }
+        input, select { width: 100%; padding: 12px; border-radius: 10px; border: none; margin-bottom: 10px; font-weight: bold; text-align: right; box-sizing: border-box; }
+        .quran-toggle { background: var(--green); color: #000; border: none; padding: 12px; width: 100%; border-radius: 10px; font-weight: bold; cursor: pointer; margin-bottom: 10px; }
         
-        .repeat-box { background: rgba(255,255,255,0.1); padding: 10px; border-radius: 10px; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; font-size: 0.9rem; }
-
-        .progress-box { margin: 10px 0; display: flex; align-items: center; gap: 10px; font-size: 0.8rem; }
-        input[type="range"] { flex: 1; accent-color: var(--green); cursor: pointer; }
-
-        .controls { display: flex; justify-content: center; align-items: center; gap: 12px; margin-top: 5px; }
-        .play-btn { background: var(--green); border: none; width: 60px; height: 60px; border-radius: 50%; font-size: 1.5rem; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-        .nav-btn, .fav-btn { background: rgba(255,255,255,0.1); border: none; color: white; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-        .fav-btn.active { color: var(--red); border: 1px solid var(--red); }
-
-        .quran-toggle { background: var(--accent); border: none; padding: 10px; width: 100%; border-radius: 10px; font-weight: bold; cursor: pointer; margin-bottom: 10px; }
-        
-        .footer { margin-top: 20px; font-size: 0.75rem; color: var(--accent); border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px; }
+        .progress-box { display: flex; align-items: center; gap: 10px; margin: 10px 0; font-size: 0.8rem; }
+        input[type="range"] { flex: 1; accent-color: var(--green); }
+        .controls { display: flex; justify-content: center; align-items: center; gap: 15px; }
+        .play-btn { background: var(--green); width: 60px; height: 60px; border-radius: 50%; border: none; font-size: 1.5rem; cursor: pointer; }
+        .nav-btn { background: rgba(255,255,255,0.1); color: white; border: none; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; }
+        .footer { margin-top: 20px; font-size: 0.7rem; color: #888; border-top: 1px solid #333; padding-top: 10px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="main-title">إذاعة القرآن الكريم الجامعة</div>
-    
-    <button class="quran-toggle" id="toggleQuranBtn" onclick="toggleQuranView()">📖 فتح المصحف للقراءة</button>
+    <div class="main-title">إذاعة القرآن والمصحف المدمج</div>
 
-    <div id="quranArea" class="quran-display">
-        <img id="quranImg" src="" class="quran-img" alt="صفحة المصحف">
-        <div class="page-ctrl">
+    <button class="quran-toggle" onclick="toggleQuran()">📖 فتح / إغلاق المصحف الورقي</button>
+
+    <div id="quranArea" class="quran-container">
+        <img id="quranImg" src="" alt="صفحة المصحف">
+        <div class="quran-nav">
             <button class="p-btn" onclick="movePage(1)">السابق</button>
-            <span id="pageNum">صفحة: 1</span>
+            <span id="pageLabel">صفحة: 1</span>
             <button class="p-btn" onclick="movePage(-1)">التالي</button>
         </div>
     </div>
 
-    <div class="sections-container" style="margin-top:15px;">
-        <button class="mode-btn active-mode" id="allMode">📖 مرتل</button>
-        <button class="mode-btn" id="mojawadMode">🎤 مجود</button>
-        <button class="mode-btn full-width" id="childMode">👶 مصحف معلم</button>
+    <div class="mode-grid" style="margin-top: 15px;">
+        <button class="mode-btn active-mode" id="m1" onclick="setMode('مرتل', this)">📖 مرتل</button>
+        <button class="mode-btn" id="m2" onclick="setMode('مجود', this)">🎤 مجود</button>
+        <button class="mode-btn full-width" onclick="setMode('معلم', this)">👶 مصحف المعلم للأطفال</button>
     </div>
 
-    <input type="text" id="searchReciter" placeholder="🔍  ابحث عن قارئ...">
-    <select id="reciterSelect"></select>
-    <select id="surahSelect"></select>
-
-    <div class="repeat-box">
-        <span>🔁 تكرار السورة:</span>
-        <select id="repeatSelect" style="width: auto; margin:0; padding:2px 5px;"></select>
-    </div>
-    
-    <div id="repeatStatus" style="font-size: 0.8rem; color: var(--accent); margin-bottom: 5px;"></div>
+    <input type="text" id="searchInput" placeholder="🔍 ابحث عن قارئ..." oninput="filterReciters(this.value)">
+    <select id="reciterSelect" onchange="startAudio()"></select>
+    <select id="surahSelect" onchange="startAudio()"></select>
 
     <div class="progress-box">
-        <span id="currentTime">0:00</span>
-        <input type="range" id="seekSlider" value="0" min="0" step="1">
-        <span id="duration">0:00</span>
+        <span id="curTime">0:00</span>
+        <input type="range" id="seek" value="0" oninput="seekAudio()">
+        <span id="durTime">0:00</span>
     </div>
 
     <div class="controls">
-        <button id="prevBtn" class="nav-btn">⏭</button>
-        <button id="addFav" class="fav-btn">❤</button>
-        <button id="playBtn" class="play-btn">▶</button>
-        <button id="nextBtn" class="nav-btn">⏮</button>
+        <button class="nav-btn" onclick="nextSurah()">⏭</button>
+        <button class="play-btn" id="playBtn" onclick="togglePlay()">▶</button>
+        <button class="nav-btn" onclick="prevSurah()">⏮</button>
     </div>
 
-    <div class="footer">صدقة جارية لجميع موتى المسلمين - أبو نواف</div>
+    <div class="footer">صدقة جارية - تطبيق القارئ الشامل</div>
 </div>
 
-<audio id="audioPlayer" preload="auto"></audio>
+<audio id="player"></audio>
 
 <script>
-    const audio = document.getElementById('audioPlayer');
-    const quranArea = document.getElementById('quranArea');
-    const quranImg = document.getElementById('quranImg');
-    const pageNumDisp = document.getElementById('pageNum');
-    const surahSelect = document.getElementById('surahSelect');
-    const reciterSelect = document.getElementById('reciterSelect');
-
+    const player = document.getElementById('player');
+    const qImg = document.getElementById('quranImg');
+    const surahNames = ["الفاتحة","البقرة","آل عمران","النساء","المائدة","الأنعام","الأعراف","الأنفال","التوبة","يونس","هود","يوسف","الرعد","إبراهيم","الحجر","النحل","الإسراء","الكهف","مريم","طه","الأنبياء","الحج","المؤمنون","النور","الفرقان","الشعراء","النمل","القصص","العنكبوت","الروم","لقمان","السجدة","الأحزاب","سبأ","فاطر","يس","الصافات","ص","الزمر","غافر","فصلت","الشورى","الزخرف","الدخان","الجاثية","الأحقاف","محمد","الفتح","الحجرات","ق","الذاريات","الطور","النجم","القمر","الرحمن","الواقعة","الحديد","المجادلة","الحشر","الممتحنة","الصف","الجمعة","المنافقون","التغابن","الطلاق","التحريم","الملك","القلم","الحاقة","المعارج","نوح","الجن","المزمل","المدثر","القيامة","الإنسان","المرسلات","النبأ","النازعات","عبس","التكوير","الانفطار","المطففين","الانشقاق","البروج","الطارق","الأعلى","الغاشية","الفجر","البلد","الشمس","الليل","الضحى","الشرح","التين","العلق","القدر","البينة","الزلزلة","العاديات","القارعة","التكاثر","العصر","الهمزة","الفيل","قريش","الماعون","الكوثر","الكافرون","النصر","المسد","الإخلاص","الفلق","الناس"];
+    const surahPages = [1, 2, 50, 77, 106, 128, 151, 177, 187, 208, 221, 235, 249, 255, 262, 267, 282, 293, 305, 312, 322, 332, 342, 350, 359, 367, 377, 385, 396, 404, 411, 415, 418, 428, 434, 440, 446, 453, 458, 467, 477, 483, 489, 496, 499, 502, 507, 511, 515, 518, 520, 523, 526, 528, 531, 534, 537, 542, 545, 549, 551, 553, 554, 556, 558, 560, 562, 564, 567, 568, 570, 572, 574, 575, 577, 578, 580, 582, 583, 585, 587, 587, 589, 591, 591, 593, 594, 595, 596, 597, 597, 598, 599, 599, 600, 600, 601, 601, 602, 602, 603, 603, 603, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604];
+    
     let allReciters = [];
     let currentMode = 'مرتل';
     let currentPage = 1;
 
-    // صفحات بداية السور (مصحف المدينة)
-    const surahPages = [1, 2, 50, 77, 106, 128, 151, 177, 187, 208, 221, 235, 249, 255, 262, 267, 282, 293, 305, 312, 322, 332, 342, 350, 359, 367, 377, 385, 396, 404, 411, 415, 418, 428, 434, 440, 446, 453, 458, 467, 477, 483, 489, 496, 499, 502, 507, 511, 515, 518, 520, 523, 526, 528, 531, 534, 537, 542, 545, 549, 551, 553, 554, 556, 558, 560, 562, 564, 567, 568, 570, 572, 574, 575, 577, 578, 580, 582, 583, 585, 587, 587, 589, 591, 591, 593, 594, 595, 596, 597, 597, 598, 599, 599, 600, 600, 601, 601, 602, 602, 603, 603, 603, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604];
-    const surahNames = ["الفاتحة","البقرة","آل عمران","النساء","المائدة","الأنعام","الأعراف","الأنفال","التوبة","يونس","هود","يوسف","الرعد","إبراهيم","الحجر","النحل","الإسراء","الكهف","مريم","طه","الأنبياء","الحج","المؤمنون","النور","الفرقان","الشعراء","النمل","القصص","العنكبوت","الروم","لقمان","السجدة","الأحزاب","سبأ","فاطر","يس","الصافات","ص","الزمر","غافر","فصلت","الشورى","الزخرف","الدخان","الجاثية","الأحقاف","محمد","الفتح","الحجرات","ق","الذاريات","الطور","النجم","القمر","الرحمن","الواقعة","الحديد","المجادلة","الحشر","الممتحنة","الصف","الجمعة","المنافقون","التغابن","الطلاق","التحريم","الملك","القلم","الحاقة","المعارج","نوح","الجن","المزمل","المدثر","القيامة","الإنسان","المرسلات","النبأ","النازعات","عبس","التكوير","الانفطار","المطففين","الانشقاق","البروج","الطارق","الأعلى","الغاشية","الفجر","البلد","الشمس","الليل","الضحى","الشرح","التين","العلق","القدر","البينة","الزلزلة","العاديات","القارعة","التكاثر","العصر","الهمزة","الفيل","قريش","الماعون","الكوثر","الكافرون","النصر","المسد","الإخلاص","الفلق","الناس"];
-
-    function toggleQuranView() {
-        const btn = document.getElementById('toggleQuranBtn');
-        quranArea.classList.toggle('active');
-        if(quranArea.classList.contains('active')) {
-            btn.innerText = "✖ إغلاق المصحف";
-            updateQuranImg();
-        } else {
-            btn.innerText = "📖 فتح المصحف للقراءة";
-        }
+    async function init() {
+        const res = await fetch("https://mp3quran.net/api/v3/reciters?language=ar");
+        const data = await res.json();
+        allReciters = data.reciters.sort((a, b) => a.name.localeCompare(b.name, 'ar'));
+        loadSurahs();
+        filterReciters("");
     }
 
-    function updateQuranImg() {
-        if (surahSelect.selectedIndex === -1) return;
-        // إذا كانت السورة قد تغيرت، نضبط الصفحة على بدايتها
-        currentPage = surahPages[surahSelect.selectedIndex];
+    function loadSurahs() {
+        const s = document.getElementById('surahSelect');
+        s.innerHTML = surahNames.map((n, i) => `<option value="${(i+1).toString().padStart(3, '0')}">${i+1}. ${n}</option>`).join('');
+    }
+
+    function filterReciters(term) {
+        const sel = document.getElementById('reciterSelect');
+        sel.innerHTML = '<option value="">-- اختر القارئ --</option>';
+        allReciters.filter(r => r.name.includes(term)).forEach(r => {
+            let m = r.moshaf.find(x => currentMode === 'معلم' ? x.name.includes("معلم") : (currentMode === 'مجود' ? x.name.includes("مجود") : x.name.includes("مرتل")));
+            if(m) sel.innerHTML += `<option value="${m.server}">${r.name}</option>`;
+        });
+    }
+
+    function setMode(mode, btn) {
+        currentMode = mode;
+        document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active-mode'));
+        btn.classList.add('active-mode');
+        filterReciters(document.getElementById('searchInput').value);
+    }
+
+    function toggleQuran() {
+        const area = document.getElementById('quranArea');
+        area.classList.toggle('active');
+        if(area.classList.contains('active')) syncQuran();
+    }
+
+    function syncQuran() {
+        const sIndex = document.getElementById('surahSelect').selectedIndex;
+        currentPage = surahPages[sIndex];
         showPage();
     }
 
     function showPage() {
-        quranImg.src = `https://www.searchtruth.org/quran/images2/page-${currentPage.toString().padStart(3, '0')}.png`;
-        pageNumDisp.innerText = `صفحة: ${currentPage}`;
+        // استخدام رابط مباشر وموثوق لصور المصحف
+        qImg.src = `https://android.quran.com/data/images_1024/page${currentPage.toString().padStart(3, '0')}.png`;
+        document.getElementById('pageLabel').innerText = `صفحة: ${currentPage}`;
     }
 
     function movePage(dir) {
@@ -159,57 +140,30 @@
         showPage();
     }
 
-    // تهيئة القوائم والبيانات
-    for(let i=1; i<=20; i++) {
-        let opt = document.createElement('option');
-        opt.value = i; opt.text = i == 1 ? "بدون تكرار" : `${i} مرات`;
-        document.getElementById('repeatSelect').appendChild(opt);
+    function startAudio() {
+        const server = document.getElementById('reciterSelect').value;
+        const surah = document.getElementById('surahSelect').value;
+        if(!server || !surah) return;
+        player.src = `${server}${surah}.mp3`;
+        player.play();
+        if(document.getElementById('quranArea').classList.contains('active')) syncQuran();
     }
 
-    async function init() {
-        try {
-            const res = await fetch("https://mp3quran.net/api/v3/reciters?language=ar");
-            const data = await res.json();
-            allReciters = data.reciters.sort((a, b) => a.name.localeCompare(b.name, 'ar'));
-            filterReciters(); loadSurahs(false);
-        } catch(e) { document.getElementById('repeatStatus').innerText = "خطأ في الشبكة"; }
-    }
-
-    function filterReciters(term = "") {
-        reciterSelect.innerHTML = '<option value="">-- اختر القارئ --</option>';
-        allReciters.filter(r => term === "" || r.name.includes(term)).forEach(r => {
-            let found = r.moshaf.find(m => currentMode === 'معلم' ? m.name.includes("معلم") : (currentMode === 'مجود' ? m.name.includes("مجود") : (m.name.includes("مرتل") || m.name === "حفص عن عاصم")));
-            if(found) { const opt = document.createElement('option'); opt.value = found.server; opt.text = r.name; reciterSelect.appendChild(opt); }
-        });
-    }
-
-    function loadSurahs(isAmma) {
-        surahSelect.innerHTML = '';
-        surahNames.forEach((n, i) => {
-            if(!isAmma || i >= 77 || i === 0) {
-                const opt = document.createElement('option'); opt.value = (i+1).toString().padStart(3, '0');
-                opt.text = `${i+1}. ${n}`; surahSelect.appendChild(opt);
-            }
-        });
-    }
-
-    function autoPlay() {
-        if(!reciterSelect.value || !surahSelect.value) return;
-        audio.src = `${reciterSelect.value}${surahSelect.value}.mp3`;
-        audio.play();
-        if(quranArea.classList.contains('active')) updateQuranImg();
-    }
-
-    document.getElementById('playBtn').onclick = () => audio.paused ? audio.play() : audio.pause();
-    reciterSelect.onchange = autoPlay;
-    surahSelect.onchange = autoPlay;
+    function togglePlay() { player.paused ? player.play() : player.pause(); }
+    player.onplay = () => document.getElementById('playBtn').innerText = "⏸";
+    player.onpause = () => document.getElementById('playBtn').innerText = "▶";
     
-    audio.onplay = () => document.getElementById('playBtn').innerText = "⏸";
-    audio.onpause = () => document.getElementById('playBtn').innerText = "▶";
+    player.ontimeupdate = () => {
+        const seek = document.getElementById('seek');
+        seek.value = (player.currentTime / player.duration) * 100 || 0;
+        document.getElementById('curTime').innerText = format(player.currentTime);
+        document.getElementById('durTime').innerText = format(player.duration);
+    };
 
-    document.getElementById('allMode').onclick = function() { currentMode='مرتل'; filterReciters(); };
-    document.getElementById('mojawadMode').onclick = function() { currentMode='مجود'; filterReciters(); };
-    document.getElementById('childMode').onclick = function() { currentMode='معلم'; filterReciters(); loadSurahs(true); };
+    function format(s) { if(isNaN(s)) return "0:00"; let m=Math.floor(s/60), r=Math.floor(s%60); return `${m}:${r<10?'0':''}${r}`; }
+    function seekAudio() { player.currentTime = player.duration * (document.getElementById('seek').value / 100); }
+    function nextSurah() { document.getElementById('surahSelect').selectedIndex++; startAudio(); }
+    function prevSurah() { document.getElementById('surahSelect').selectedIndex--; startAudio(); }
 
     init();
 </script>
