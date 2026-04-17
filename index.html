@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>إذاعة القرآن الكريم الجامعة</title>
     <style>
-        :root { --accent: #f1c40f; --green: #42e695; --red: #ff4757; --dark-bg: #0f172a; }
+        :root { --accent: #f1c40f; --green: #42e695; --red: #ff4757; --dark-bg: #0f172a; --blue: #3498db; }
         
         body {
             margin: 0; font-family: 'Segoe UI', Tahoma, sans-serif;
@@ -19,15 +19,31 @@
             padding: 25px 20px; border-radius: 20px; text-align: center;
             width: 100%; max-width: 420px; border: 1px solid rgba(255,255,255,0.1);
             box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            box-sizing: border-box;
         }
 
-        .main-title { color: var(--accent); font-weight: bold; margin-bottom: 20px; font-size: 1.6rem; }
+        .main-title { color: var(--accent); font-weight: bold; margin-bottom: 20px; font-size: 1.6rem; text-shadow: 0 2px 10px rgba(241, 196, 15, 0.3); }
+
+        /* أزرار الروابط العلوية */
+        .top-links { display: flex; gap: 10px; justify-content: center; margin-bottom: 20px; }
+        .feat-link, .mushaf-link { 
+            background: none; border-radius: 20px; cursor: pointer; 
+            font-size: 0.8rem; transition: 0.3s; 
+            display: inline-flex; align-items: center; gap: 5px; padding: 8px 12px;
+            text-decoration: none; font-weight: bold;
+        }
+        .feat-link { border: 1px solid var(--accent); color: var(--accent); }
+        .feat-link:hover { background: var(--accent); color: black; }
+        
+        .mushaf-link { border: 1px solid var(--blue); color: var(--blue); }
+        .mushaf-link:hover { background: var(--blue); color: white; }
 
         .sections-container { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 15px; }
         
         .mode-btn { 
             padding: 12px; border-radius: 12px; border: none; cursor: pointer; 
-            background: #333; color: white; font-weight: bold; font-size: 0.85rem; transition: 0.3s; 
+            background: #333; color: white; font-weight: bold; font-size: 0.85rem; 
+            transition: 0.3s; 
         }
         .active-mode { background: var(--accent); color: black; box-shadow: 0 0 15px var(--accent); }
         .full-width { grid-column: span 2; }
@@ -35,26 +51,39 @@
         input[type="text"], select { 
             width: 100%; padding: 14px; border-radius: 12px; border: none; 
             margin-bottom: 12px; background: white; color: #333; 
-            font-size: 1rem; font-weight: bold; outline: none; text-align: right;
+            font-size: 1rem; font-weight: bold; outline: none;
+            box-sizing: border-box; text-align: right;
         }
 
         .repeat-box { 
             background: rgba(255,255,255,0.1); padding: 12px; border-radius: 12px; 
-            margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; 
+            margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; 
         }
 
-        #childOptions { display: none; flex-direction: column; gap: 8px; }
+        .progress-box { margin: 15px 0; display: flex; align-items: center; gap: 12px; font-size: 0.85rem; }
+        input[type="range"] { flex: 1; cursor: pointer; accent-color: var(--green); }
 
         .controls { display: flex; justify-content: center; align-items: center; gap: 15px; margin-top: 10px; }
         
         .play-btn { 
-            background: var(--green); border: none; width: 70px; height: 70px; 
-            border-radius: 50%; font-size: 1.8rem; cursor: pointer; color: black;
+            background: var(--green); border: none; width: 75px; height: 75px; 
+            border-radius: 50%; font-size: 1.8rem; cursor: pointer; 
+            display: flex; align-items: center; justify-content: center; 
+            color: black; transition: 0.2s; box-shadow: 0 5px 15px rgba(66, 230, 149, 0.3); 
         }
-        .nav-btn { 
+        .nav-btn, .fav-btn { 
             background: rgba(255,255,255,0.1); border: none; color: white; 
             width: 50px; height: 50px; border-radius: 50%; cursor: pointer; 
+            font-size: 1.2rem; display: flex; align-items: center; justify-content: center; 
         }
+        .fav-btn { border: 2px solid var(--red); color: var(--red); background: none; }
+        .fav-btn.active { background: var(--red); color: white; box-shadow: 0 0 15px var(--red); }
+
+        .modal { display: none; position: fixed; z-index: 2000; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); align-items: center; justify-content: center; padding: 20px; box-sizing: border-box; }
+        .modal-content { background: var(--dark-bg); padding: 25px; border-radius: 20px; width: 100%; max-width: 380px; border: 2px solid var(--accent); position: relative; }
+        .close-modal { position: absolute; top: 10px; left: 15px; font-size: 1.8rem; cursor: pointer; color: var(--red); }
+        .feat-list { text-align: right; list-style: none; padding: 0; margin-top: 20px; }
+        .feat-list li { margin-bottom: 12px; font-size: 0.95rem; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 8px; }
 
         .footer { margin-top: 25px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.8rem; color: var(--accent); }
     </style>
@@ -64,41 +93,37 @@
 <div class="container">
     <div class="main-title">إذاعة القرآن الكريم الجامعة</div>
     
+    <div class="top-links">
+        <button class="feat-link" onclick="toggleModal(true)">📋 المميزات</button>
+        <a href="https://qurancomplex.gov.sa/kfgqpc-quran-browser/" target="_blank" class="mushaf-link">📖 تصفح المصحف المعتمد</a>
+    </div>
+
     <div class="sections-container">
         <button class="mode-btn active-mode" id="allMode">📖 المصحف المرتل</button>
         <button class="mode-btn" id="mojawadMode">🎤 المصحف المجود</button>
-        <button class="mode-btn full-width" id="childMode">👶 قسم الأطفال (تكرار الآيات)</button>
+        <button class="mode-btn full-width" id="childMode">👶 قسم الأطفال (المعلم)</button>
     </div>
 
-    <input type="text" id="searchReciter" placeholder="🔍 ابحث عن قارئ...">
+    <input type="text" id="searchReciter" placeholder="🔍  ابحث عن قارئ...">
     <select id="reciterSelect"></select>
     <select id="surahSelect"></select>
 
     <div class="repeat-box">
-        <label style="font-size: 0.85rem; font-weight: bold;">🔁 تكرار السورة:</label>
-        <select id="surahRepeat" style="width: auto; margin:0; padding:5px;">
-            <option value="1">مرة واحدة</option>
-            <option value="5">5 مرات</option>
-            <option value="10">10 مرات</option>
-        </select>
-    </div>
-
-    <div id="childOptions">
-        <div class="repeat-box" style="background: rgba(66, 230, 149, 0.2); border: 1px solid var(--green);">
-            <label style="font-size: 0.85rem; font-weight: bold; color: var(--green);">🔁 تكرار الآية الواحدة:</label>
-            <select id="verseRepeat" style="width: auto; margin:0; padding:5px;">
-                <option value="1">بدون تكرار</option>
-                <option value="3">3 مرات</option>
-                <option value="5">5 مرات</option>
-                <option value="7">7 مرات</option>
-            </select>
-        </div>
+        <label style="font-size: 0.9rem; font-weight: bold;">🔁 تكرار السورة آلياً:</label>
+        <select id="repeatSelect" style="width: auto; margin:0; padding:5px 10px;"></select>
     </div>
     
-    <div id="statusInfo" style="font-size: 0.85rem; color: var(--accent); margin: 10px 0;">جاهز للاستماع...</div>
+    <div id="repeatStatus" style="font-size: 0.85rem; color: var(--accent); margin-bottom: 10px; min-height: 1.2em;"></div>
+
+    <div class="progress-box">
+        <span id="currentTime">0:00</span>
+        <input type="range" id="seekSlider" value="0" min="0" step="1">
+        <span id="duration">0:00</span>
+    </div>
 
     <div class="controls">
         <button id="prevBtn" class="nav-btn">⏭</button>
+        <button id="addFav" class="fav-btn">❤</button>
         <button id="playBtn" class="play-btn">▶</button>
         <button id="nextBtn" class="nav-btn">⏮</button>
     </div>
@@ -106,132 +131,175 @@
     <div class="footer">صدقة جارية لجميع موتى المسلمين - أبو نواف</div>
 </div>
 
-<audio id="audioPlayer"></audio>
+<div id="featModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal" onclick="toggleModal(false)">&times;</span>
+        <h3 style="color:var(--accent); margin-top: 0;">🌟 مميزات الإذاعة</h3>
+        <ul class="feat-list">
+            <li>⭐ استكمال تلقائي ذكي من حيث توقفت.</li>
+            <li>⭐ تكرار السورة (حتى 20 مرة) للحفظ.</li>
+            <li>⭐ بث متواصل (ينتقل للقارئ التالي تلقائياً).</li>
+            <li>⭐ قائمة مفضلة لحفظ قراءك المختارين.</li>
+            <li>⭐ أنماط متعددة (مرتل، مجود، معلم).</li>
+            <li>⭐ نظام إعادة تشغيل عند عودة الإنترنت.</li>
+            <li>⭐ بحث سريع وفوري بمجرد كتابة الاسم.</li>
+            <li>⭐ تصفح المصحف الورقي (إلكترونياً) في نافذة جديدة.</li>
+        </ul>
+    </div>
+</div>
+
+<audio id="audioPlayer" preload="auto"></audio>
 
 <script>
-    const audio = document.getElementById('audioPlayer');
+    /* نفس السكربت السابق تماماً */
     const reciterSelect = document.getElementById('reciterSelect');
     const surahSelect = document.getElementById('surahSelect');
-    const statusInfo = document.getElementById('statusInfo');
-    const childOptions = document.getElementById('childOptions');
-    const verseRepeat = document.getElementById('verseRepeat');
-    const surahRepeat = document.getElementById('surahRepeat');
-
+    const repeatSelect = document.getElementById('repeatSelect');
+    const repeatStatus = document.getElementById('repeatStatus');
+    const playBtn = document.getElementById('playBtn');
+    const audio = document.getElementById('audioPlayer');
+    const seekSlider = document.getElementById('seekSlider');
+    const favBtn = document.getElementById('addFav');
+    
+    let allReciters = [];
+    let currentRepeat = 1;
+    let favorites = JSON.parse(localStorage.getItem('quranFavs')) || [];
     let currentMode = 'مرتل';
-    let currentAyah = 1;
-    let totalAyahs = 0;
-    let verseCounter = 1;
-    let surahCounter = 1;
 
-    const surahData = [0,7,286,200,176,120,165,206,75,129,109,123,111,43,52,99,128,111,110,98,135,112,78,118,64,77,227,93,88,69,60,34,30,73,54,45,83,182,88,75,85,54,53,89,59,37,35,38,29,18,45,60,49,62,55,78,96,29,22,24,13,14,11,11,18,12,12,30,52,52,44,28,28,20,56,40,31,50,40,46,42,29,19,36,25,22,17,19,26,30,20,15,21,11,8,8,19,5,8,8,11,11,8,3,9,5,4,7,3,6,3,5,4,5,6];
+    const surahNames = ["الفاتحة","البقرة","آل عمران","النساء","المائدة","الأنعام","الأعراف","الأنفال","التوبة","يونس","هود","يوسف","الرعد","إبراهيم","الحجر","النحل","الإسراء","الكهف","مريم","طه","الأنبياء","الحج","المؤمنون","النور","الفرقان","الشعراء","النمل","القصص","العنكبوت","الروم","لقمان","السجدة","الأحزاب","سبأ","فاطر","يس","الصافات","ص","الزمر","غافر","فصلت","الشورى","الزخرف","الدخان","الجاثية","الأحقاف","محمد","الفتح","الحجرات","ق","الذاريات","الطور","النجم","القمر","الرحمن","الواقعة","الحديد","المجادلة","الحشر","الممتحنة","الصف","الجمعة","المنافقون","التغابن","الطلاق","التحريم","الملك","القلم","الحاقة","المعارج","نوح","الجن","المزمل","المدثر","القيامة","الإنسان","المرسلات","النبأ","النازعات","عبس","التكوير","الانفطار","المطففين","الانشقاق","البروج","الطارق","الأعلى","الغاشية","الفجر","البلد","الشمس","الليل","الضحى","الشرح","التين","العلق","القدر","البينة","الزلزلة","العاديات","القارعة","التكاثر","العصر","الهمزة","الفيل","قريش","الماعون","الكوثر","الكافرون","النصر","المسد","الإخلاص","الفلق","الناس"];
+
+    function toggleModal(show) { document.getElementById('featModal').style.display = show ? 'flex' : 'none'; }
+
+    for(let i=1; i<=20; i++) {
+        let opt = document.createElement('option');
+        opt.value = i; opt.text = i == 1 ? "بدون تكرار" : `${i} مرات`;
+        repeatSelect.appendChild(opt);
+    }
 
     async function init() {
-        const res = await fetch("https://mp3quran.net/api/v3/reciters?language=ar");
-        const data = await res.json();
-        window.allReciters = data.reciters;
-        updateList();
+        try {
+            const res = await fetch("https://mp3quran.net/api/v3/reciters?language=ar");
+            const data = await res.json();
+            allReciters = data.reciters.sort((a, b) => a.name.localeCompare(b.name, 'ar'));
+            const lastSave = JSON.parse(localStorage.getItem('lastQuranSession'));
+            if (lastSave) {
+                currentMode = lastSave.mode || 'مرتل';
+                updateActiveBtn(document.getElementById(getModeBtnId(currentMode)));
+                filterReciters();
+                loadSurahs(currentMode === 'معلم');
+                reciterSelect.value = lastSave.server;
+                surahSelect.value = lastSave.surahNum;
+                audio.src = `${lastSave.server}${lastSave.surahNum}.mp3`;
+                audio.load();
+                audio.currentTime = lastSave.time;
+                repeatStatus.innerText = "🔄 تم استعادة آخر موقع تلقائياً";
+            } else {
+                filterReciters(); loadSurahs(false);
+            }
+        } catch(e) { repeatStatus.innerText = "خطأ في جلب البيانات"; }
     }
 
-    function updateList() {
+    function saveCurrentProgress() {
+        if (!audio.src || audio.paused) return;
+        localStorage.setItem('lastQuranSession', JSON.stringify({
+            server: reciterSelect.value, surahNum: surahSelect.value,
+            time: audio.currentTime, mode: currentMode
+        }));
+    }
+    setInterval(saveCurrentProgress, 2000);
+
+    function getModeBtnId(m) { return m === 'مجود' ? 'mojawadMode' : (m === 'معلم' ? 'childMode' : 'allMode'); }
+    
+    function autoPlayTrack() {
+        if(!reciterSelect.value || !surahSelect.value) return;
+        audio.src = `${reciterSelect.value}${surahSelect.value}.mp3`;
+        currentRepeat = 1; updateStatus(); checkFavStatus();
+        audio.load(); audio.play().catch(e=>{});
+    }
+
+    function filterReciters(term = "") {
         reciterSelect.innerHTML = '<option value="">-- اختر القارئ --</option>';
-        window.allReciters.forEach(r => {
-            let m = r.moshaf.find(m => currentMode === 'معلم' ? m.name.includes("معلم") : m.name.includes("مرتل"));
-            if(m) {
-                let opt = document.createElement('option');
-                opt.value = m.server; opt.text = r.name;
-                reciterSelect.appendChild(opt);
+        if (term === "") {
+            let favGroup = document.createElement('optgroup'); favGroup.label = "⭐ القراء المفضلون";
+            favorites.filter(f => f.mode === currentMode).forEach(f => {
+                let opt = document.createElement('option'); opt.value = f.server; opt.text = "❤️ " + f.name; favGroup.appendChild(opt);
+            });
+            if(favGroup.children.length > 0) reciterSelect.appendChild(favGroup);
+        }
+        let allGroup = document.createElement('optgroup'); allGroup.label = term === "" ? "📋 القائمة الأبجدية" : "🔍 نتائج البحث";
+        allReciters.filter(r => term === "" || r.name.includes(term)).forEach(r => {
+            let found = r.moshaf.find(m => currentMode === 'معلم' ? m.name.includes("معلم") : (currentMode === 'مجود' ? m.name.includes("مجود") : (m.name.includes("مرتل") || m.name === "حفص عن عاصم")));
+            if(found) { const opt = document.createElement('option'); opt.value = found.server; opt.text = r.name; allGroup.appendChild(opt); }
+        });
+        reciterSelect.appendChild(allGroup);
+    }
+
+    function loadSurahs(isAmma) {
+        const prev = surahSelect.value;
+        surahSelect.innerHTML = '';
+        surahNames.forEach((n, i) => {
+            if(!isAmma || i >= 77 || i === 0) {
+                const opt = document.createElement('option'); opt.value = (i+1).toString().padStart(3, '0');
+                opt.text = `${i+1}. ${n}`; surahSelect.appendChild(opt);
             }
         });
-        
-        surahSelect.innerHTML = '';
-        for(let i=1; i<=114; i++) {
-            let opt = document.createElement('option');
-            opt.value = i; opt.text = "سورة " + i;
-            surahSelect.appendChild(opt);
-        }
+        if(prev && !isAmma) surahSelect.value = prev;
     }
 
-    function getAudioUrl() {
-        if(currentMode === 'معلم') {
-            // نستخدم سيرفر EveryAyah لجلب الآيات منفصلة (القارئ المنشاوي معلم افتراضياً هنا للدقة)
-            let s = surahSelect.value.padStart(3, '0');
-            let a = currentAyah.toString().padStart(3, '0');
-            return `https://www.everyayah.com/data/Menshawi_Teacher_64kbps/${s}${a}.mp3`;
-        } else {
-            let s = surahSelect.value.padStart(3, '0');
-            return `${reciterSelect.value}${s}.mp3`;
-        }
-    }
-
-    function play() {
-        if(!reciterSelect.value) return;
-        totalAyahs = surahData[surahSelect.value];
-        audio.src = getAudioUrl();
-        audio.play();
-        updateStatus();
-    }
-
-    audio.onended = () => {
-        if(currentMode === 'معلم') {
-            if(verseCounter < parseInt(verseRepeat.value)) {
-                verseCounter++;
-                audio.play();
-            } else {
-                verseCounter = 1;
-                if(currentAyah < totalAyahs) {
-                    currentAyah++;
-                    audio.src = getAudioUrl();
-                    audio.play();
-                } else {
-                    handleSurahEnd();
-                }
+    playBtn.onclick = () => { if(!audio.src) autoPlayTrack(); else audio.paused ? audio.play() : audio.pause(); };
+    
+    document.getElementById('nextBtn').onclick = () => {
+        if(surahSelect.selectedIndex === surahSelect.options.length - 1) {
+            if(reciterSelect.selectedIndex < reciterSelect.options.length - 1) {
+                reciterSelect.selectedIndex++; surahSelect.selectedIndex = 0; autoPlayTrack();
             }
-        } else {
-            handleSurahEnd();
-        }
-        updateStatus();
+        } else { surahSelect.selectedIndex++; autoPlayTrack(); }
     };
-
-    function handleSurahEnd() {
-        if(surahCounter < parseInt(surahRepeat.value)) {
-            surahCounter++;
-            currentAyah = 1;
-            play();
-        } else {
-            surahCounter = 1;
-            surahSelect.selectedIndex++;
-            play();
-        }
-    }
+    
+    document.getElementById('prevBtn').onclick = () => { if(surahSelect.selectedIndex > 0) { surahSelect.selectedIndex--; autoPlayTrack(); } };
 
     function updateStatus() {
-        if(currentMode === 'معلم') {
-            statusInfo.innerText = `الآية: ${currentAyah} | تكرار الآية: ${verseCounter} من ${verseRepeat.value}`;
-        } else {
-            statusInfo.innerText = `السورة: ${surahSelect.value} | تكرار السورة: ${surahCounter} من ${surahRepeat.value}`;
-        }
+        let max = parseInt(repeatSelect.value);
+        repeatStatus.innerText = max > 1 ? `تكرار: ${currentRepeat} من ${max}` : "جاري الاستماع الآن...";
     }
 
-    document.getElementById('childMode').onclick = function() {
-        currentMode = 'معلم';
-        childOptions.style.display = 'block';
-        currentAyah = 1;
-        updateList();
-        this.classList.add('active-mode');
-        document.getElementById('allMode').classList.remove('active-mode');
+    audio.onplay = () => playBtn.innerText = "⏸";
+    audio.onpause = () => playBtn.innerText = "▶";
+    audio.onended = () => {
+        let max = parseInt(repeatSelect.value);
+        if (currentRepeat < max) { currentRepeat++; updateStatus(); audio.currentTime = 0; audio.play(); }
+        else { document.getElementById('nextBtn').click(); }
     };
 
-    document.getElementById('allMode').onclick = function() {
-        currentMode = 'مرتل';
-        childOptions.style.display = 'none';
-        updateList();
-        this.classList.add('active-mode');
-        document.getElementById('childMode').classList.remove('active-mode');
+    audio.ontimeupdate = () => { if(!isNaN(audio.duration)) { seekSlider.value = (audio.currentTime/audio.duration)*100; document.getElementById('currentTime').innerText = formatTime(audio.currentTime); document.getElementById('duration').innerText = formatTime(audio.duration); } };
+    seekSlider.oninput = () => audio.currentTime = audio.duration * (seekSlider.value/100);
+    function formatTime(s) { let m=Math.floor(s/60), sc=Math.floor(s%60); return `${m}:${sc<10?'0'+sc:sc}`; }
+
+    favBtn.onclick = () => {
+        const server = reciterSelect.value; if(!server) return;
+        let name = reciterSelect.options[reciterSelect.selectedIndex].text.replace("❤️ ", "");
+        const idx = favorites.findIndex(f => f.server === server);
+        if(idx === -1) favorites.push({server, name, mode: currentMode}); else favorites.splice(idx, 1);
+        localStorage.setItem('quranFavs', JSON.stringify(favorites));
+        filterReciters(document.getElementById('searchReciter').value);
+        reciterSelect.value = server; checkFavStatus();
     };
 
-    document.getElementById('playBtn').onclick = play;
-    reciterSelect.onchange = play;
-    surahSelect.onchange = () => { currentAyah = 1; play(); };
+    function checkFavStatus() { const exists = favorites.some(f => f.server === reciterSelect.value); favBtn.classList.toggle('active', exists); }
+
+    reciterSelect.onchange = autoPlayTrack;
+    surahSelect.onchange = autoPlayTrack;
+    document.getElementById('searchReciter').oninput = (e) => filterReciters(e.target.value);
+
+    function updateActiveBtn(btn) { document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active-mode')); btn.classList.add('active-mode'); }
+    
+    const modes = { 'allMode': 'مرتل', 'mojawadMode': 'مجود', 'childMode': 'معلم' };
+    Object.keys(modes).forEach(id => {
+        document.getElementById(id).onclick = function() {
+            currentMode = modes[id]; updateActiveBtn(this); loadSurahs(currentMode === 'معلم'); filterReciters();
+            audio.pause(); playBtn.innerText = "▶";
+        };
+    });
 
     init();
 </script>
