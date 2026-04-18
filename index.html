@@ -4,88 +4,88 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>إذاعة القرآن الكريم الجامعة</title>
-    
+
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <meta name="theme-color" content="#0f172a">
-    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
     <style>
-        :root { --accent: #f1c40f; --green: #42e695; --red: #ff4757; --dark-bg: #0f172a; [span_2](start_span)}
+        :root { --accent: #f1c40f; --green: #42e695; --red: #ff4757; --dark-bg: #0f172a; }
         
         body {
-            margin: 0; font-family: 'Segoe UI', Tahoma, sans-serif;[span_2](end_span)
+            margin: 0; font-family: 'Segoe UI', Tahoma, sans-serif;
             background: linear-gradient(135deg, #1e3c72, #2a5298);
             min-height: 100vh; display: flex; justify-content: center; 
-            [span_3](start_span)align-items: center; color: white; padding: 15px; box-sizing: border-box;[span_3](end_span)
+            align-items: center; color: white; padding: 15px; box-sizing: border-box;
         }
 
         .container {
-            [span_4](start_span)background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(15px);[span_4](end_span)
+            background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(15px);
             padding: 25px 20px; border-radius: 20px; text-align: center;
             width: 100%; max-width: 420px; border: 1px solid rgba(255,255,255,0.1);
-            [span_5](start_span)box-shadow: 0 15px 35px rgba(0,0,0,0.5); box-sizing: border-box;[span_5](end_span)
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5); box-sizing: border-box;
         }
 
-        .main-title { color: var(--accent); font-weight: bold; margin-bottom: 20px; font-size: 1.6rem; text-shadow: 0 2px 10px rgba(241, 196, 15, 0.3); [span_6](start_span)}
+        .main-title { color: var(--accent); font-weight: bold; margin-bottom: 20px; font-size: 1.6rem; text-shadow: 0 2px 10px rgba(241, 196, 15, 0.3); }
 
         .feat-link { 
             background: none; border: 1px solid var(--accent); color: var(--accent); 
             padding: 6px 18px; border-radius: 20px; cursor: pointer; 
             font-size: 0.85rem; margin-bottom: 20px; transition: 0.3s;
-            display: inline-flex; align-items: center; gap: 5px;[span_6](end_span)
+            display: inline-flex; align-items: center; gap: 5px;
         }
-        .feat-link:hover { background: var(--accent); color: black; [span_7](start_span)}
+        .feat-link:hover { background: var(--accent); color: black; }
 
-        .sections-container { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 15px; }[span_7](end_span)
+        .sections-container { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 15px; }
         
         .mode-btn { 
             padding: 12px; border-radius: 12px; border: none; cursor: pointer; 
             background: #333; color: white; font-weight: bold; font-size: 0.85rem; 
-            [span_8](start_span)transition: 0.3s;[span_8](end_span)
+            transition: 0.3s;
         }
-        .active-mode { background: var(--accent); color: black; box-shadow: 0 0 15px var(--accent); [span_9](start_span)}
-        .full-width { grid-column: span 2; }[span_9](end_span)
+        .active-mode { background: var(--accent); color: black; box-shadow: 0 0 15px var(--accent); }
+        .full-width { grid-column: span 2; }
 
         input[type="text"], select { 
             width: 100%; padding: 14px; border-radius: 12px; border: none; 
             margin-bottom: 12px; background: white; color: #333; 
             font-size: 1rem; font-weight: bold; outline: none;
-            [span_10](start_span)box-sizing: border-box; text-align: right;[span_10](end_span)
+            box-sizing: border-box; text-align: right;
         }
 
         .repeat-box { 
             background: rgba(255,255,255,0.1); padding: 12px; border-radius: 12px; 
-            [span_11](start_span)margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between;[span_11](end_span)
+            margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between;
         }
 
-        .progress-box { margin: 15px 0; display: flex; align-items: center; gap: 12px; font-size: 0.85rem; [span_12](start_span)}
-        input[type="range"] { flex: 1; cursor: pointer; accent-color: var(--green); }[span_12](end_span)
+        .progress-box { margin: 15px 0; display: flex; align-items: center; gap: 12px; font-size: 0.85rem; }
+        input[type="range"] { flex: 1; cursor: pointer; accent-color: var(--green); }
 
-        .controls { display: flex; justify-content: center; align-items: center; gap: 15px; margin-top: 10px; [span_13](start_span)}
+        .controls { display: flex; justify-content: center; align-items: center; gap: 15px; margin-top: 10px; }
         
         .play-btn { 
             background: var(--green); border: none; width: 75px; height: 75px; 
             border-radius: 50%; font-size: 1.8rem; cursor: pointer; 
             display: flex; align-items: center; justify-content: center; color: black;
-            transition: 0.2s; box-shadow: 0 5px 15px rgba(66, 230, 149, 0.3);[span_13](end_span)
+            transition: 0.2s; box-shadow: 0 5px 15px rgba(66, 230, 149, 0.3);
         }
         .nav-btn, .fav-btn { 
             background: rgba(255,255,255,0.1); border: none; color: white; 
             width: 50px; height: 50px; border-radius: 50%; cursor: pointer; 
-            [span_14](start_span)font-size: 1.2rem; display: flex; align-items: center; justify-content: center;[span_14](end_span)
+            font-size: 1.2rem; display: flex; align-items: center; justify-content: center;
         }
-        .fav-btn { border: 2px solid var(--red); color: var(--red); background: none; [span_15](start_span)}
-        .fav-btn.active { background: var(--red); color: white; box-shadow: 0 0 15px var(--red); }[span_15](end_span)
+        .fav-btn { border: 2px solid var(--red); color: var(--red); background: none; }
+        .fav-btn.active { background: var(--red); color: white; box-shadow: 0 0 15px var(--red); }
 
-        .modal { display: none; position: fixed; z-index: 2000; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); align-items: center; justify-content: center; padding: 20px; box-sizing: border-box; [span_16](start_span)}
-        .modal-content { background: var(--dark-bg); padding: 25px; border-radius: 20px; width: 100%; max-width: 380px; border: 2px solid var(--accent); position: relative; }[span_16](end_span)
-        .close-modal { position: absolute; top: 10px; left: 15px; font-size: 1.8rem; cursor: pointer; color: var(--red); [span_17](start_span)}
-        .feat-list { text-align: right; list-style: none; padding: 0; margin-top: 20px; }[span_17](end_span)
-        .feat-list li { margin-bottom: 12px; font-size: 0.95rem; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 8px; [span_18](start_span)}
+        .modal { display: none; position: fixed; z-index: 2000; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); align-items: center; justify-content: center; padding: 20px; box-sizing: border-box; }
+        .modal-content { background: var(--dark-bg); padding: 25px; border-radius: 20px; width: 100%; max-width: 380px; border: 2px solid var(--accent); position: relative; }
+        .close-modal { position: absolute; top: 10px; left: 15px; font-size: 1.8rem; cursor: pointer; color: var(--red); }
+        .feat-list { text-align: right; list-style: none; padding: 0; margin-top: 20px; }
+        .feat-list li { margin-bottom: 12px; font-size: 0.95rem; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 8px; }
 
-        .footer { margin-top: 25px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.8rem; color: var(--accent); }[span_18](end_span)
+        .footer { margin-top: 25px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.8rem; color: var(--accent); }
     </style>
 </head>
 <body>
@@ -106,7 +106,7 @@
     <select id="surahSelect"></select>
 
     <div class="repeat-box">
-        [span_19](start_span)<label style="font-size: 0.9rem; font-weight: bold;">🔁 تكرار السورة آلياً:</label>[span_19](end_span)
+        <label style="font-size: 0.9rem; font-weight: bold;">🔁 تكرار السورة آلياً:</label>
         <select id="repeatSelect" style="width: auto; margin:0; padding:5px 10px;"></select>
     </div>
     
@@ -119,7 +119,7 @@
     </div>
 
     <div class="controls">
-        [span_20](start_span)<button id="prevBtn" class="nav-btn">⏭</button>[span_20](end_span)
+        <button id="prevBtn" class="nav-btn">⏭</button>
         <button id="addFav" class="fav-btn">❤</button>
         <button id="playBtn" class="play-btn">▶</button>
         <button id="nextBtn" class="nav-btn">⏮</button>
@@ -131,13 +131,13 @@
 <div id="featModal" class="modal">
     <div class="modal-content">
         <span class="close-modal" onclick="toggleModal(false)">&times;</span>
-        [span_21](start_span)<h3 style="color:var(--accent); margin-top: 0;">🌟 مميزات الإذاعة</h3>[span_21](end_span)
+        <h3 style="color:var(--accent); margin-top: 0;">🌟 مميزات الإذاعة</h3>
         <ul class="feat-list">
             <li>⭐ استكمال تلقائي ذكي من حيث توقفت.</li>
             <li>⭐ تكرار السورة (حتى 20 مرة) للحفظ.</li>
             <li>⭐ بث متواصل (ينتقل للقارئ التالي تلقائياً).</li>
             <li>⭐ قائمة مفضلة لحفظ قراءك المختارين.</li>
-            [span_22](start_span)<li>⭐ أنماط متعددة (مرتل، مجود، معلم).[span_22](end_span)</li>
+            <li>⭐ أنماط متعددة (مرتل، مجود، معلم).</li>
             <li>⭐ نظام إعادة تشغيل عند عودة الإنترنت.</li>
             <li>⭐ بحث سريع وفوري بمجرد كتابة الاسم.</li>
             <li>⭐ التحكم في الصوت من شاشة القفل.</li>
@@ -152,35 +152,35 @@
     const surahSelect = document.getElementById('surahSelect');
     const repeatSelect = document.getElementById('repeatSelect');
     const repeatStatus = document.getElementById('repeatStatus');
-    [span_23](start_span)const playBtn = document.getElementById('playBtn');[span_23](end_span)
+    const playBtn = document.getElementById('playBtn');
     const audio = document.getElementById('audioPlayer');
     const seekSlider = document.getElementById('seekSlider');
-    [span_24](start_span)const favBtn = document.getElementById('addFav');[span_24](end_span)
+    const favBtn = document.getElementById('addFav');
     
     let allReciters = [];
     let currentRepeat = 1;
-    let favorites = JSON.parse(localStorage.getItem('quranFavs')) || [span_25](start_span)[];[span_25](end_span)
+    let favorites = JSON.parse(localStorage.getItem('quranFavs')) || [];
     let currentMode = 'مرتل';
 
     const surahNames = ["الفاتحة","البقرة","آل عمران","النساء","المائدة","الأنعام","الأعراف","الأنفال","التوبة","يونس","هود","يوسف","الرعد","إبراهيم","الحجر","النحل","الإسراء","الكهف","مريم","طه","الأنبياء","الحج","المؤمنون","النور","الفرقان","الشعراء","النمل","القصص","العنكبوت","الروم","لقمان","السجدة","الأحزاب","سبأ","فاطر","يس","الصافات","ص","الزمر","غافر","فصلت","الشورى","الزخرف","الدخان","الجاثية","الأحقاف","محمد","الفتح","الحجرات","ق","الذاريات","الطور","النجم","القمر","الرحمن","الواقعة","الحديد","المجادلة","الحشر","الممتحنة","الصف","الجمعة","المنافقون","التغابن","الطلاق","التحريم","الملك","القلم","الحاقة","المعارج","نوح","الجن","المزمل","المدثر","القيامة","الإنسان","المرسلات","النبأ","النازعات","عبس","التكوير","الانفطار","المطففين","الانشقاق","البروج","الطارق","الأعلى","الغاشية","الفجر","البلد","الشمس","الليل","الضحى","الشرح","التين","العلق","القدر","البينة","الزلزلة","العاديات","القارعة","التكاثر","العصر","الهمزة","الفيل","قريش","الماعون","الكوثر","الكافرون","النصر","المسد","الإخلاص","الفلق","الناس"];
 
-    function toggleModal(show) { document.getElementById('featModal').style.display = show ? 'flex' : 'none'; [span_26](start_span)}
+    function toggleModal(show) { document.getElementById('featModal').style.display = show ? 'flex' : 'none'; }
 
     for(let i=1; i<=20; i++) {
-        let opt = document.createElement('option');[span_26](end_span)
+        let opt = document.createElement('option');
         opt.value = i; opt.text = i == 1 ? "بدون تكرار" : `${i} مرات`;
-        [span_27](start_span)repeatSelect.appendChild(opt);[span_27](end_span)
+        repeatSelect.appendChild(opt);
     }
 
     async function init() {
         try {
-            [span_28](start_span)const res = await fetch("https://mp3quran.net/api/v3/reciters?language=ar");[span_28](end_span)
+            const res = await fetch("https://mp3quran.net/api/v3/reciters?language=ar");
             const data = await res.json();
             allReciters = data.reciters.sort((a, b) => a.name.localeCompare(b.name, 'ar'));
             
-            [span_29](start_span)const lastSave = JSON.parse(localStorage.getItem('lastQuranSession'));[span_29](end_span)
+            const lastSave = JSON.parse(localStorage.getItem('lastQuranSession'));
             if (lastSave) {
-                currentMode = lastSave.mode || [span_30](start_span)'مرتل';[span_30](end_span)
+                currentMode = lastSave.mode || 'مرتل';
                 updateActiveBtn(document.getElementById(getModeBtnId(currentMode)));
                 filterReciters();
                 loadSurahs(currentMode === 'معلم');
@@ -189,63 +189,63 @@
                 audio.src = `${lastSave.server}${lastSave.surahNum}.mp3`;
                 audio.load();
                 audio.currentTime = lastSave.time;
-                [span_31](start_span)repeatStatus.innerText = "🔄 تم استعادة آخر موقع تلقائياً";[span_31](end_span)
+                repeatStatus.innerText = "🔄 تم استعادة آخر موقع تلقائياً";
             } else {
-                [span_32](start_span)filterReciters(); loadSurahs(false);[span_32](end_span)
+                filterReciters(); loadSurahs(false);
             }
-        } catch(e) { repeatStatus.innerText = "خطأ في جلب البيانات من السيرفر"; [span_33](start_span)}
+        } catch(e) { repeatStatus.innerText = "خطأ في جلب البيانات من السيرفر"; }
     }
 
     function saveCurrentProgress() {
-        if (!audio.src || audio.paused) return;[span_33](end_span)
+        if (!audio.src || audio.paused) return;
         localStorage.setItem('lastQuranSession', JSON.stringify({
             server: reciterSelect.value,
             surahNum: surahSelect.value,
             time: audio.currentTime,
             mode: currentMode
-        [span_34](start_span)}));[span_34](end_span)
+        }));
     }
-    [span_35](start_span)setInterval(saveCurrentProgress, 2000);[span_35](end_span)
+    setInterval(saveCurrentProgress, 2000);
 
-    function getModeBtnId(m) { return m === 'مجود' ? 'mojawadMode' : (m === 'معلم' ? 'childMode' : 'allMode'); [span_36](start_span)}
+    function getModeBtnId(m) { return m === 'مجود' ? 'mojawadMode' : (m === 'معلم' ? 'childMode' : 'allMode'); }
     
     function playAudioSafe() { 
         audio.play().catch(e => { 
             repeatStatus.innerText = "تم التجهيز.. اضغط (▶) للمواصلة"; 
-        });[span_36](end_span)
+        });
     }
 
     function autoPlayTrack() {
-        [span_37](start_span)if(!reciterSelect.value || !surahSelect.value) return;[span_37](end_span)
+        if(!reciterSelect.value || !surahSelect.value) return;
         audio.src = `${reciterSelect.value}${surahSelect.value}.mp3`;
         currentRepeat = 1;
         updateStatus();
         checkFavStatus();
         audio.load();
-        [span_38](start_span)playAudioSafe();[span_38](end_span)
+        playAudioSafe();
     }
 
     function filterReciters(term = "") {
-        [span_39](start_span)reciterSelect.innerHTML = '<option value="">-- اختر القارئ --</option>';[span_39](end_span)
+        reciterSelect.innerHTML = '<option value="">-- اختر القارئ --</option>';
         if (term === "") {
-            [span_40](start_span)let favGroup = document.createElement('optgroup');[span_40](end_span)
+            let favGroup = document.createElement('optgroup');
             favGroup.label = "⭐ القراء المفضلون";
             favorites.filter(f => f.mode === currentMode).forEach(f => {
                 let opt = document.createElement('option'); opt.value = f.server; opt.text = "❤️ " + f.name; favGroup.appendChild(opt);
             });
-            [span_41](start_span)if(favGroup.children.length > 0) reciterSelect.appendChild(favGroup);[span_41](end_span)
+            if(favGroup.children.length > 0) reciterSelect.appendChild(favGroup);
         }
-        [span_42](start_span)let allGroup = document.createElement('optgroup');[span_42](end_span)
-        allGroup.label = term === "" ? [span_43](start_span)"📋 القائمة الأبجدية" : "🔍 نتائج البحث";[span_43](end_span)
+        let allGroup = document.createElement('optgroup');
+        allGroup.label = term === "" ? "📋 القائمة الأبجدية" : "🔍 نتائج البحث";
         allReciters.filter(r => term === "" || r.name.includes(term)).forEach(r => {
             let found = r.moshaf.find(m => currentMode === 'معلم' ? m.name.includes("معلم") : (currentMode === 'مجود' ? m.name.includes("مجود") : (m.name.includes("مرتل") || m.name === "حفص عن عاصم")));
             if(found) { const opt = document.createElement('option'); opt.value = found.server; opt.text = r.name; allGroup.appendChild(opt); }
-        [span_44](start_span)});[span_44](end_span)
+        });
         reciterSelect.appendChild(allGroup);
     }
 
     function loadSurahs(isAmma) {
-        [span_45](start_span)const prev = surahSelect.value;[span_45](end_span)
+        const prev = surahSelect.value;
         surahSelect.innerHTML = '';
         surahNames.forEach((n, i) => {
             if(!isAmma || i >= 77 || i === 0) {
@@ -253,61 +253,61 @@
                 opt.text = `${i+1}. ${n}`; surahSelect.appendChild(opt);
             }
         });
-        [span_46](start_span)if(prev && !isAmma) surahSelect.value = prev;[span_46](end_span)
+        if(prev && !isAmma) surahSelect.value = prev;
     }
 
-    playBtn.onclick = () => { if(!audio.src) autoPlayTrack(); else audio.paused ? playAudioSafe() : audio.pause(); [span_47](start_span)};[span_47](end_span)
+    playBtn.onclick = () => { if(!audio.src) autoPlayTrack(); else audio.paused ? playAudioSafe() : audio.pause(); };
     
     document.getElementById('nextBtn').onclick = () => {
         if(surahSelect.selectedIndex === surahSelect.options.length - 1) {
             if(reciterSelect.selectedIndex < reciterSelect.options.length - 1) {
-                [span_48](start_span)reciterSelect.selectedIndex++; surahSelect.selectedIndex = 0; autoPlayTrack();[span_48](end_span)
+                reciterSelect.selectedIndex++; surahSelect.selectedIndex = 0; autoPlayTrack();
             }
-        [span_49](start_span)} else { surahSelect.selectedIndex++; autoPlayTrack();[span_49](end_span) }
+        } else { surahSelect.selectedIndex++; autoPlayTrack(); }
     };
     
-    document.getElementById('prevBtn').onclick = () => { if(surahSelect.selectedIndex > 0) { surahSelect.selectedIndex--; autoPlayTrack(); [span_50](start_span)} };[span_50](end_span)
+    document.getElementById('prevBtn').onclick = () => { if(surahSelect.selectedIndex > 0) { surahSelect.selectedIndex--; autoPlayTrack(); } };
 
     function updateStatus() {
         let max = parseInt(repeatSelect.value);
-        repeatStatus.innerText = max > 1 ? [span_51](start_span)`تكرار: ${currentRepeat} من ${max}` : "جاري الاستماع الآن...";[span_51](end_span)
+        repeatStatus.innerText = max > 1 ? `تكرار: ${currentRepeat} من ${max}` : "جاري الاستماع الآن...";
     }
 
-    [span_52](start_span)audio.onplay = () => playBtn.innerText = "⏸";[span_52](end_span)
+    audio.onplay = () => playBtn.innerText = "⏸";
     audio.onpause = () => playBtn.innerText = "▶";
     audio.onended = () => {
-        [span_53](start_span)let max = parseInt(repeatSelect.value);[span_53](end_span)
-        if (currentRepeat < max) { currentRepeat++; updateStatus(); audio.currentTime = 0; playAudioSafe(); [span_54](start_span)}
+        let max = parseInt(repeatSelect.value);
+        if (currentRepeat < max) { currentRepeat++; updateStatus(); audio.currentTime = 0; playAudioSafe(); }
         else { document.getElementById('nextBtn').click(); }
-    };[span_54](end_span)
-    audio.ontimeupdate = () => { if(!isNaN(audio.duration)) { seekSlider.value = (audio.currentTime/audio.duration)*100; document.getElementById('currentTime').innerText = formatTime(audio.currentTime); document.getElementById('duration').innerText = formatTime(audio.duration); [span_55](start_span)} };[span_55](end_span)
+    };
+    audio.ontimeupdate = () => { if(!isNaN(audio.duration)) { seekSlider.value = (audio.currentTime/audio.duration)*100; document.getElementById('currentTime').innerText = formatTime(audio.currentTime); document.getElementById('duration').innerText = formatTime(audio.duration); } };
     seekSlider.oninput = () => audio.currentTime = audio.duration * (seekSlider.value/100);
-    function formatTime(s) { let m=Math.floor(s/60), sc=Math.floor(s%60); return `${m}:${sc<10?'0'+sc:sc}`; [span_56](start_span)}
+    function formatTime(s) { let m=Math.floor(s/60), sc=Math.floor(s%60); return `${m}:${sc<10?'0'+sc:sc}`; }
 
     favBtn.onclick = () => {
-        const server = reciterSelect.value; if(!server) return;[span_56](end_span)
+        const server = reciterSelect.value; if(!server) return;
         let name = reciterSelect.options[reciterSelect.selectedIndex].text.replace("❤️ ", "");
-        [span_57](start_span)const idx = favorites.findIndex(f => f.server === server);[span_57](end_span)
+        const idx = favorites.findIndex(f => f.server === server);
         if(idx === -1) favorites.push({server, name, mode: currentMode}); else favorites.splice(idx, 1);
         localStorage.setItem('quranFavs', JSON.stringify(favorites));
         filterReciters(document.getElementById('searchReciter').value);
         reciterSelect.value = server; checkFavStatus();
-    [span_58](start_span)};[span_58](end_span)
+    };
     function checkFavStatus() { const exists = favorites.some(f => f.server === reciterSelect.value); favBtn.classList.toggle('active', exists); }
 
-    [span_59](start_span)reciterSelect.onchange = autoPlayTrack;[span_59](end_span)
+    reciterSelect.onchange = autoPlayTrack;
     surahSelect.onchange = autoPlayTrack;
     document.getElementById('searchReciter').oninput = (e) => filterReciters(e.target.value);
 
-    function updateActiveBtn(btn) { document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active-mode')); btn.classList.add('active-mode'); [span_60](start_span)}
+    function updateActiveBtn(btn) { document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active-mode')); btn.classList.add('active-mode'); }
     
-    const modes = { 'allMode': 'مرتل', 'mojawadMode': 'مجود', 'childMode': 'معلم' };[span_60](end_span)
+    const modes = { 'allMode': 'مرتل', 'mojawadMode': 'مجود', 'childMode': 'معلم' };
     Object.keys(modes).forEach(id => {
         document.getElementById(id).onclick = function() {
             currentMode = modes[id]; updateActiveBtn(this); loadSurahs(currentMode === 'معلم'); filterReciters();
             audio.pause(); playBtn.innerText = "▶";
         };
-    [span_61](start_span)});[span_61](end_span)
+    });
     init();
 </script>
 </body>
